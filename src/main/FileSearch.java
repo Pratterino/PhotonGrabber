@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileSearch {
 
@@ -23,21 +25,18 @@ public class FileSearch {
 
     private int setFileNamesToSearch(ArrayList<String> fileNamesToSearch) {
         this.fileNamesToSearch = fileNamesToSearch;
-        
         return this.fileNamesToSearch.size();
     }
 
     private void search() {
         File folder = new File(searchfolder).getAbsoluteFile();
 
-        for (String searchFile : fileNamesToSearch) {
-            System.out.println("searchfile:" + searchFile.toLowerCase());
-            
+        for (String searchFile : fileNamesToSearch) { 
             for (final String targetFile : allFiles) {
                 String smallSearch = (searchFile + fileEnd).toLowerCase();
                 
                 if (smallSearch.equals( targetFile.toLowerCase()) ) {
-                    System.out.println("MATCH!!!!!");
+                    Window.setText("Found: " + targetFile.toLowerCase());
                     
                     if (folder.isDirectory()) {
                         result.add(targetFile.toLowerCase());
@@ -47,7 +46,7 @@ public class FileSearch {
                 }
             }
         }
-        System.out.println("FOUND: "+result.size());
+        Window.setText("== FOUND: " + result.size() + " matches! ==");
     }
 
     private boolean setFolderContent(File directory) {
@@ -79,7 +78,7 @@ public class FileSearch {
         search();              
         
         writeFile( getMissedFiles() );
-        System.out.println("MISSED: "+ notFound.size() );
+        Window.setText("== Didn't find a total of " + notFound.size() + " files.. ==");
     }
 
     private void copyFile(File absoluteFile) {
@@ -93,10 +92,11 @@ public class FileSearch {
     }
 
     private void writeFile(ArrayList<String> write) {
+        String filename = "_MISSED FILES.txt";
         try {
-            BufferedWriter writer
-                    = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
-                            new File(SAVEPATH, "_MISSED FILES.txt")), "utf-8"));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
+                new File(SAVEPATH, filename)), "utf-8")
+            );
 
             for (String line : write) {
                 writer.write(line);
@@ -106,7 +106,12 @@ public class FileSearch {
         } catch (IOException ex) {
             // report
         } finally {
-            System.out.println("Missed logfile written and saved.");
+            try {
+                System.out.println("Missed logfile written and saved.");
+                Process p = new ProcessBuilder("notepad", SAVEPATH + "\\" + filename).start();
+            } catch (IOException ex) {
+                Logger.getLogger(FileSearch.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

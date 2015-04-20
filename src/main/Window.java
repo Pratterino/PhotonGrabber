@@ -283,7 +283,9 @@ public class Window extends javax.swing.JFrame {
         setText(FILEPATH);
         setText(SAVEPATH);
         setText(SEARCHPATH);
-        setText("copying " + file.copy(SEARCHPATH, SAVEPATH) + " to " + SAVEPATH);
+        setText("Search started.");
+
+        file.copy(SEARCHPATH, SAVEPATH);
     }
     
 }

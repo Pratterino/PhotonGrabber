@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import main.Window;
 
 /**
  *
@@ -71,8 +70,7 @@ public class FileRead {
         
     }
 
-    String copy(String SEARCH, String SAVE) {
+    void copy(String SEARCH, String SAVE) {
         FileSearch search = new FileSearch(SEARCH, list, new File(SAVE));
-        return SAVE;
     }
 }
