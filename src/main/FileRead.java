@@ -1,10 +1,10 @@
-package examples;
-
+package main;
 
 import java.io.*;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import main.Window;
 
 /**
  *
@@ -45,16 +45,17 @@ public class FileRead {
             
             //Read File Line By Line
             while ((strLine = br.readLine()) != null) {
-                if ("".equals(strLine) || " ".equals(strLine))
+                if ("".equals(strLine) || " ".equals(strLine)) {
                     print("Empty line..");
-                else
-                    list.add(strLine);
+                } else {
+                    list.add(strLine.trim());
+                }
             }
             
             //Close the input stream
             in.close();
             print("Number of usable rows: " + list.size());
-            print("3: " + list);
+            print("Complete list: " + list);
             
         } catch (IOException e) {//Catch exception if any
             System.err.println("Error: " + e.getMessage());
@@ -62,6 +63,7 @@ public class FileRead {
     }
 
     private void print(Object text) {
+        Window.setText(text.toString());
         System.out.println(text.toString());
     }
     
@@ -69,7 +71,8 @@ public class FileRead {
         
     }
 
-    void copy(String SEARCH, String SAVE) {
+    String copy(String SEARCH, String SAVE) {
         FileSearch search = new FileSearch(SEARCH, list, new File(SAVE));
+        return SAVE;
     }
 }

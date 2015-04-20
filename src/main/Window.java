@@ -1,4 +1,4 @@
-package examples;
+package main;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -34,6 +34,7 @@ public class Window extends javax.swing.JFrame {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel1 = new javax.swing.JPanel();
         readFileLABEL = new javax.swing.JLabel();
@@ -50,6 +51,9 @@ public class Window extends javax.swing.JFrame {
         setBackground(new java.awt.Color(178, 213, 181));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setIconImage(getIconImage());
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jPanel1, org.jdesktop.beansbinding.ELProperty.create("${icon.png}"), this, org.jdesktop.beansbinding.BeanProperty.create("iconImage"));
+        bindingGroup.addBinding(binding);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Input"));
 
@@ -85,7 +89,8 @@ public class Window extends javax.swing.JFrame {
             }
         });
 
-        go_btn.setText("Do it!");
+        go_btn.setText("Grab them!");
+        go_btn.setToolTipText("Start batch fetch for jpeg's.");
         go_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 go_btnActionPerformed(evt);
@@ -109,7 +114,7 @@ public class Window extends javax.swing.JFrame {
                             .add(saveToLABEL))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(saveToINPUT, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                            .add(saveToINPUT, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, lookInINPUT, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                             .add(readFileINPUT, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))))
                 .addContainerGap())
@@ -137,7 +142,6 @@ public class Window extends javax.swing.JFrame {
         CONSOLE.setEditable(false);
         CONSOLE.setFont(new java.awt.Font("Franklin Gothic Book", 0, 12)); // NOI18N
         CONSOLE.setName(""); // NOI18N
-        CONSOLE.setText("Log:");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,9 +160,11 @@ public class Window extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(CONSOLE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .add(CONSOLE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -219,7 +225,7 @@ public class Window extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.TextArea CONSOLE;
+    private static java.awt.TextArea CONSOLE;
     private javax.swing.JButton go_btn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField lookInINPUT;
@@ -228,6 +234,7 @@ public class Window extends javax.swing.JFrame {
     private javax.swing.JLabel readFileLABEL;
     private javax.swing.JTextField saveToINPUT;
     private javax.swing.JLabel saveToLABEL;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     
     /**
@@ -235,7 +242,7 @@ public class Window extends javax.swing.JFrame {
      * 
      * @param line String to print.
      */
-    public void setText(String line) {
+    public static void setText(String line) {
         CONSOLE.append(line + "\n");
         System.out.println(line);
     }
@@ -276,8 +283,7 @@ public class Window extends javax.swing.JFrame {
         setText(FILEPATH);
         setText(SAVEPATH);
         setText(SEARCHPATH);
-        
-        file.copy(SEARCHPATH, SAVEPATH);
+        setText("copying " + file.copy(SEARCHPATH, SAVEPATH) + " to " + SAVEPATH);
     }
     
 }
